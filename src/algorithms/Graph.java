@@ -3,8 +3,8 @@ package algorithms;
 import java.util.*;
 
 /**
- * Created by Moritz on 11/16/2016.
- * <p></p>
+ * In this implementation, the graph is considered a collection of nodes. Edges are the associations
+ * between these nodes.
  */
 public class Graph {
     private boolean isDigraph;
@@ -36,6 +36,12 @@ public class Graph {
         this.isDigraph = isDigraph;
     }
 
+    /**
+     * Adds an association between nodes. If the nodes are not yet recorded in the graph, they are
+     * added automatically.
+     * @param origin source node
+     * @param endpoint target node
+     */
     public void addEdge(String origin, String endpoint){
         //Make sure the graph contains the relevant nodes
         if(graph.get(origin)==null){
@@ -49,6 +55,12 @@ public class Graph {
         //If the graph is undirected, create an association from the endpoint node to the origin node
         if(!isDigraph){
             graph.get(endpoint).addChild(origin);
+        }
+    }
+
+    public void addNode(String node){
+        if(graph.get(node)==null){
+            graph.put(node, new Node(node));
         }
     }
 
