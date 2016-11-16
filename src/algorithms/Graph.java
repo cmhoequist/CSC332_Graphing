@@ -12,13 +12,13 @@ public class Graph {
 
     private class Node{
         final String name;
-        Set<String> children;
+        Set<String> children = new HashSet<>();
 
         public Node(String nodeName){
             this.name = nodeName;
         }
 
-        public void addChild(String nodeName){
+        public void addChild(String nodeName) {
             children.add(nodeName);
         }
 
@@ -48,8 +48,9 @@ public class Graph {
             graph.put(origin, new Node(origin));
         }
         if(graph.get(endpoint)==null){
-            graph.put(origin, new Node(endpoint));
+            graph.put(endpoint, new Node(endpoint));
         }
+
         //Create an association from the origin node to the endpoint node
         graph.get(origin).addChild(endpoint);
         //If the graph is undirected, create an association from the endpoint node to the origin node
@@ -64,4 +65,19 @@ public class Graph {
         }
     }
 
+
+    public String adjList(){
+        StringBuilder sb = new StringBuilder();
+        for(Map.Entry<String, Node> node : graph.entrySet()){
+            sb.append(node.getKey());
+            sb.append(": {");
+            node.getValue().children.forEach((child) -> {
+                sb.append(child);
+                sb.append(",");
+            });
+            sb.setLength(sb.length()-1); //truncate final delimiter
+            sb.append("}\n");
+        }
+        return sb.toString();
+    }
 }

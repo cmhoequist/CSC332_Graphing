@@ -1,11 +1,23 @@
 package driver;
 
+import algorithms.Graph;
+
 /**
  * Created by Moritz on 11/16/2016.
  * <p></p>
  */
 public class Driver {
     public static void main(String[] args){
+        //Testing
+        Graph graph = new Graph(false);
+        graph.addEdge("a","b");
+        graph.addEdge("a","c");
+        graph.addEdge("a","d");
+        graph.addEdge("a","e");
+        graph.addEdge("c","b");
+        graph.addEdge("c","b");
+        graph.addEdge("e","b");
+        System.out.println(graph.adjList());
         //TODO: write input handler
         /*
         First: user selects between graph & digraph
