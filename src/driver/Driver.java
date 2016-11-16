@@ -1,5 +1,6 @@
 package driver;
 
+import algorithms.BFSVisitor;
 import algorithms.Graph;
 import algorithms.Solver;
 
@@ -38,8 +39,8 @@ public class Driver {
         graph.addEdge("f","e");
         System.out.println(graph.adjacencyList());
 
-        Solver solver = new Solver(graph);
-        System.out.println(solver.bfs());
+        BFSVisitor bfs = new BFSVisitor();
+        System.out.println(bfs.visit(graph));
 
     }
 }

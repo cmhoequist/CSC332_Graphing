@@ -57,6 +57,10 @@ public class Graph {
         return graph.values().stream().collect(Collectors.toList());
     }
 
+    public void accept(GraphVisitor visitor){
+        visitor.visit(this);
+    }
+
     public String adjacencyList(){
         StringBuilder sb = new StringBuilder();
         for(Map.Entry<String, Node> node : graph.entrySet()){
