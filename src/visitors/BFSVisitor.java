@@ -1,4 +1,7 @@
-package algorithms;
+package visitors;
+
+import model.Graph;
+import model.Node;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -6,8 +9,8 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * Created by Moritz on 11/16/2016.
- * <p></p>
+ * Returns a list of nodes in the order in which they are visited by a
+ * breadth-first search.
  */
 public class BFSVisitor implements GraphVisitor{
     /* BFS:
@@ -28,8 +31,8 @@ public class BFSVisitor implements GraphVisitor{
          */
 
     @Override
-    public List<String> visit(Graph graph) {
-        List<String> visitOrder = new ArrayList<>();
+    public List<Node> visit(Graph graph) {
+        List<Node> visitOrder = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         Queue<Node> queue = new LinkedList<>();
         Node s = graph.getStartingNode();
@@ -37,7 +40,7 @@ public class BFSVisitor implements GraphVisitor{
         s.setDistance(0);
 
         queue.add(s);
-        visitOrder.add(s.getName());
+        visitOrder.add(s);
         while(!queue.isEmpty()){
             Node v = queue.poll();
             v.getChildren().forEach(childName ->{
@@ -47,7 +50,7 @@ public class BFSVisitor implements GraphVisitor{
                     u.setDistance(v.getDistance());
                     u.setPredecessor(v.getName());
                     queue.add(u);
-                    visitOrder.add(u.getName());
+                    visitOrder.add(u);
                 }
             });
             v.setColor(1);

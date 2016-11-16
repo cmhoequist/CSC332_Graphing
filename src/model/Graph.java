@@ -1,11 +1,13 @@
-package algorithms;
+package model;
+
+import visitors.GraphVisitor;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * In this implementation, the graph is considered a collection of nodes. Edges are the associations
- * between these nodes.
+ * between these nodes, and are recorded by the Node objects.
  */
 public class Graph {
     private boolean isDigraph;

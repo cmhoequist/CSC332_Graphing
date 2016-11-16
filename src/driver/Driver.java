@@ -1,8 +1,7 @@
 package driver;
 
-import algorithms.BFSVisitor;
-import algorithms.Graph;
-import algorithms.Solver;
+import visitors.BFSVisitor;
+import model.Graph;
 
 /**
  * Created by Moritz on 11/16/2016.
@@ -10,21 +9,21 @@ import algorithms.Solver;
  */
 //TODO: input handler
         /*
-        First: user selects between graph & digraph
-        Then: user adds set of nodes and set of edges
+        (?) First: user selects between graph & digraph
+        (?) Then: user adds set of nodes and set of edges
          */
 //TODO: graph builder
         /*
-        Adjacency list is constructed and printed (DONE)
-        Adjacency matrix is constructed and printed
-        Graph diagram is constructed and displayed
+        (DONE) Adjacency list is constructed and printed
+        (?) Adjacency matrix is constructed and printed
+        (?) Graph diagram is constructed and displayed
          */
-//TODO: write graph algorithms
+//TODO: write graph model
         /*
-        BFS is executed. Print the nodes in order of visitation, one component per line. (In progress)
-        DFS is executed. Print the nodes in order of visitation, one component per line.
-        Print a topological ordering for the graph (or error message if graph is not DAG).
-        Print list of SCCs for graph (or error message if graph is not digraph).
+        (Moritz) BFS is executed. Print the nodes in order of visitation, one component per line.
+        (?) DFS is executed. Print the nodes in order of visitation, one component per line.
+                Print a topological ordering for the graph (or error message if graph is not DAG).
+                Print list of SCCs for graph (or error message if graph is not digraph).
          */
 public class Driver {
     public static void main(String[] args){
