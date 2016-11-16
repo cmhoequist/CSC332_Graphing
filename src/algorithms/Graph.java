@@ -1,6 +1,7 @@
 package algorithms;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * In this implementation, the graph is considered a collection of nodes. Edges are the associations
@@ -9,28 +10,6 @@ import java.util.*;
 public class Graph {
     private boolean isDigraph;
     private Map<String, Node> graph = new HashMap<>();
-
-    private class Node{
-        final String name;
-        Set<String> children = new HashSet<>();
-
-        public Node(String nodeName){
-            this.name = nodeName;
-        }
-
-        public void addChild(String nodeName) {
-            children.add(nodeName);
-        }
-
-        @Override
-        public int hashCode(){
-            return name.hashCode();
-        }
-
-        public boolean equals(Node otherNode){
-            return name.equals(otherNode.name);
-        }
-    }
 
     public Graph(boolean isDigraph){
         this.isDigraph = isDigraph;
@@ -65,13 +44,25 @@ public class Graph {
         }
     }
 
+    public Node getStartingNode(){
+        Iterator<Node> iter = graph.values().iterator();
+        return iter.next();
+    }
 
-    public String adjList(){
+    public Node getNode(String nodeName){
+        return graph.get(nodeName);
+    }
+
+    public List<Node> getNodes(){
+        return graph.values().stream().collect(Collectors.toList());
+    }
+
+    public String adjacencyList(){
         StringBuilder sb = new StringBuilder();
         for(Map.Entry<String, Node> node : graph.entrySet()){
             sb.append(node.getKey());
             sb.append(": {");
-            node.getValue().children.forEach((child) -> {
+            node.getValue().getChildren().forEach((child) -> {
                 sb.append(child);
                 sb.append(",");
             });
