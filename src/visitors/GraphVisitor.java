@@ -10,5 +10,10 @@ import java.util.List;
  * the implementation).
  */
 public interface GraphVisitor {
-    public List<Node> visit(Graph graph);
+    /**
+     * Returns a list of nodes in order of traversal, partitioned by components.
+     * @param graph
+     * @return
+     */
+    public List<List<Node>> visit(Graph graph);
 }

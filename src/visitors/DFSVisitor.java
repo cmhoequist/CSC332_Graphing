@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class DFSVisitor implements GraphVisitor{
     @Override
-    public List<Node> visit(Graph graph) {
+    public List<List<Node>> visit(Graph graph) {
         return null;
     }
 

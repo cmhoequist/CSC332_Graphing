@@ -14,9 +14,10 @@ import model.Graph;
          */
 //TODO: graph builder (class Graph, might need additional Diagram class)
         /*
-        (DONE) Adjacency list is constructed and printed
-        (DONE) Adjacency matrix is constructed and printed
-        (?) Graph diagram is constructed and displayed
+        (DONE) Adjacency list is constructed
+        (DONE) Adjacency matrix is constructed
+        (?) Graph diagram is constructed
+        (?) Display results
          */
 //TODO: write algorithms (class BFSVisitor, DFSVisitor)
         /*
@@ -31,16 +32,32 @@ public class Driver {
         Graph graph = new Graph(false);
         graph.addEdge("a","f");
         graph.addEdge("a","c");
-        graph.addEdge("a","d");
         graph.addEdge("c","b");
         graph.addEdge("c","b");
+        graph.addEdge("d","g");
         graph.addEdge("e","b");
         graph.addEdge("f","e");
+        graph.addEdge("g","h");
+        graph.addEdge("h","d");
         System.out.println(graph.adjacencyList());
         System.out.println(graph.adjacencyMatrix());
 
+        Graph digraph = new Graph(true);
+        digraph.addEdge("a","f");
+        digraph.addEdge("a","c");
+        digraph.addEdge("c","b");
+        digraph.addEdge("c","b");
+        digraph.addEdge("d","g");
+        digraph.addEdge("e","b");
+        digraph.addEdge("f","e");
+        digraph.addEdge("g","h");
+        digraph.addEdge("h","d");
+        System.out.println(digraph.adjacencyList());
+        System.out.println(digraph.adjacencyMatrix());
+
+
         BFSVisitor bfs = new BFSVisitor();
         System.out.println(bfs.visit(graph));
-
+        System.out.println(bfs.visit(digraph));
     }
 }

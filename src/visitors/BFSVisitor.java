@@ -31,29 +31,35 @@ public class BFSVisitor implements GraphVisitor{
          */
 
     @Override
-    public List<Node> visit(Graph graph) {
-        List<Node> visitOrder = new ArrayList<>();
+    public List<List<Node>> visit(Graph graph) {
         Queue<Node> queue = new LinkedList<>();
-        Node s = graph.getStartingNode();
-        s.setColor(0);
-        s.setDistance(0);
 
-        queue.add(s);
-        visitOrder.add(s);
-        while(!queue.isEmpty()){
-            Node v = queue.poll();
-            v.getChildren().forEach(childName ->{
-                Node u = graph.getNode(childName);
-                if(u.getColor() < 0){
-                    u.setColor(0);
-                    u.setDistance(v.getDistance());
-                    u.setPredecessor(v.getName());
-                    queue.add(u);
-                    visitOrder.add(u);
-                }
-            });
-            v.setColor(1);
+        List<List<Node>> components = new ArrayList<>();
+        List<Node> allNodes = graph.getNodes();
+        while(!allNodes.isEmpty()){
+            List<Node> visitOrder = new ArrayList<>();
+            Node s = allNodes.get(0);
+            s.setColor(0);
+            s.setDistance(0);
+            queue.add(s);
+            visitOrder.add(s);
+
+            while(!queue.isEmpty()){
+                Node v = queue.poll();
+                v.getChildren().forEach(childName ->{
+                    Node u = graph.getNode(childName);
+                    if(u.getColor() < 0){
+                        u.setColor(0);
+                        u.setDistance(v.getDistance());
+                        u.setPredecessor(v.getName());
+                        queue.add(u);
+                        visitOrder.add(u);
+                    }
+                });
+                allNodes.remove(v); //Equivalent to v.setColor(1)
+            }
+            components.add(visitOrder);
         }
-        return visitOrder;
+        return components;
     }
 }
