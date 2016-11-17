@@ -33,7 +33,6 @@ public class BFSVisitor implements GraphVisitor{
     @Override
     public List<Node> visit(Graph graph) {
         List<Node> visitOrder = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
         Queue<Node> queue = new LinkedList<>();
         Node s = graph.getStartingNode();
         s.setColor(0);

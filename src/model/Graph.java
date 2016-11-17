@@ -3,7 +3,6 @@ package model;
 import visitors.GraphVisitor;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -26,12 +25,8 @@ public class Graph {
      */
     public void addEdge(String origin, String endpoint){
         //Make sure the graph contains the relevant nodes
-        if(graph.get(origin)==null){
-            graph.put(origin, new Node(origin));
-        }
-        if(graph.get(endpoint)==null){
-            graph.put(endpoint, new Node(endpoint));
-        }
+        graph.putIfAbsent(origin, new Node(origin));
+        graph.putIfAbsent(endpoint, new Node(endpoint));
 
         //Create an association from the origin node to the endpoint node
         graph.get(origin).addChild(endpoint);
@@ -42,9 +37,7 @@ public class Graph {
     }
 
     public void addNode(String node){
-        if(graph.get(node)==null){
-            graph.put(node, new Node(node));
-        }
+        graph.putIfAbsent(node, new Node(node));
     }
 
     public Node getStartingNode(){
@@ -85,9 +78,7 @@ public class Graph {
         //Print body
         adj.entrySet().forEach((entry) -> {
             sb.append(String.format("%-"+(offset+padding)+"s",entry.getKey()));
-            adj.keySet().forEach((key) -> {
-                sb.append(String.format("%-"+(offset+padding)+"s",entry.getValue().contains(key) ? "X" : "O"));
-            });
+            adj.keySet().forEach((key) ->  sb.append(String.format("%-"+(offset+padding)+"s",entry.getValue().contains(key) ? "X" : "O")));
             sb.append("\n");
         });
         return sb.toString();
