@@ -62,7 +62,6 @@ public class Node{
         return predecessor;
     }
 
-
     public Set<String> getChildren(){
         return children;
     }

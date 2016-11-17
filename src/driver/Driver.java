@@ -15,7 +15,7 @@ import model.Graph;
 //TODO: graph builder (class Graph, might need additional Diagram class)
         /*
         (DONE) Adjacency list is constructed and printed
-        (?) Adjacency matrix is constructed and printed
+        (DONE) Adjacency matrix is constructed and printed
         (?) Graph diagram is constructed and displayed
          */
 //TODO: write algorithms (class BFSVisitor, DFSVisitor)
@@ -37,6 +37,7 @@ public class Driver {
         graph.addEdge("e","b");
         graph.addEdge("f","e");
         System.out.println(graph.adjacencyList());
+        System.out.println(graph.adjacencyMatrix());
 
         BFSVisitor bfs = new BFSVisitor();
         System.out.println(bfs.visit(graph));

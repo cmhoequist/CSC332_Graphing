@@ -3,6 +3,7 @@ package model;
 import visitors.GraphVisitor;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -63,18 +64,34 @@ public class Graph {
         visitor.visit(this);
     }
 
-    public String adjacencyList(){
-        StringBuilder sb = new StringBuilder();
-        for(Map.Entry<String, Node> node : graph.entrySet()){
-            sb.append(node.getKey());
-            sb.append(": {");
-            node.getValue().getChildren().forEach((child) -> {
-                sb.append(child);
-                sb.append(",");
-            });
-            sb.setLength(sb.length()-1); //truncate final delimiter
-            sb.append("}\n");
+    public Map<String, List<String>> adjacencyList(){
+        Map<String, List<String>> outcome = new HashMap<>();
+        for(Map.Entry<String, Node> entry : graph.entrySet()){
+            outcome.put(entry.getKey(), entry.getValue().getChildren().stream().collect(Collectors.toList()));
         }
+        return outcome;
+    }
+
+    public String adjacencyMatrix(){
+        StringBuilder sb = new StringBuilder();
+        Map<String, List<String>> adj = adjacencyList();
+        final int padding = 2;
+        //Find offset length
+        int offset = adj.keySet().stream().max((k1, k2) -> Integer.compare(k1.length(), k2.length())).get().length();
+        //Print header
+        sb.append(String.format("%-"+(offset+padding)+"s",""));
+        adj.keySet().forEach(key -> sb.append(String.format("%-"+(offset+padding)+"s",key)));
+        sb.append("\n");
+        //Print body
+        adj.entrySet().forEach((entry) -> {
+            sb.append(String.format("%-"+(offset+padding)+"s",entry.getKey()));
+            adj.keySet().forEach((key) -> {
+                sb.append(String.format("%-"+(offset+padding)+"s",entry.getValue().contains(key) ? "X" : "O"));
+            });
+            sb.append("\n");
+        });
         return sb.toString();
     }
+
+
 }
