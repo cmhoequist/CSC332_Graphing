@@ -25,11 +25,13 @@ import visitors.JUNGVisitor;
 //TODO: write algorithms
         /*
         (DONE) Run BFS and retrieve results.
-         (?) Display BFS properly.
-         (?) Run DFS and retrieve results.
-         (?) Display DFS properly.
-         (?) Display a topological ordering for the graph. (Error message if graph is not DAG).
-         (?) Display SCCs for graph. (Error message if graph is not digraph).
+        (?) Display BFS properly.
+        (DONE) Run DFS and retrieve results.
+        (?) Display DFS properly.
+         (DONE) Display a topological ordering for the graph.
+            (?) Error message if graph is not DAG.
+         (DONE) Display SCCs for graph.
+            (?) Error message if graph is not digraph.
          */
 public class Driver {
     public static void main(String[] args){
@@ -44,8 +46,7 @@ public class Driver {
         graph.addEdge("f","e");
         graph.addEdge("g","h");
         graph.addEdge("h","d");
-        System.out.println(graph.adjacencyList());
-        System.out.println(graph.adjacencyMatrix());
+
 
         DGraph digraph = new DGraph();
         digraph.addEdge("a","f");
@@ -57,20 +58,24 @@ public class Driver {
         digraph.addEdge("f","e");
         digraph.addEdge("g","h");
         digraph.addEdge("h","d");
-        System.out.println(digraph.adjacencyList());
-        System.out.println(digraph.adjacencyMatrix());
 
+//        System.out.println(graph.adjacencyList());
+//        System.out.println(graph.adjacencyMatrix());
+//        System.out.println(digraph.adjacencyList());
+//        System.out.println(digraph.adjacencyMatrix());
 
-        BFSVisitor bfs = new BFSVisitor();
-        System.out.println(bfs.visit(graph));
-        System.out.println(bfs.visit(digraph));
-
-        JUNGVisitor jung = new JUNGVisitor();
-        jung.visit(graph);
-        jung.visit(digraph);
+//        BFSVisitor bfs = new BFSVisitor();
+//        System.out.println(bfs.visit(graph));
+//        System.out.println(bfs.visit(digraph));
+//
+//        JUNGVisitor jung = new JUNGVisitor();
+//        jung.visit(graph);
+//        jung.visit(digraph);
 
         DFSVisitor dfs = new DFSVisitor();
+        System.out.println(dfs.sccs(digraph));
         System.out.println(dfs.visit(graph));
         System.out.println(dfs.visit(digraph));
+        System.out.println(dfs.topologicalOrder(digraph));
     }
 }

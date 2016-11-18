@@ -83,4 +83,8 @@ public class Node{
     public String toString(){
         return getName();
     }
+
+    public int getLast(){
+        return last;
+    }
 }

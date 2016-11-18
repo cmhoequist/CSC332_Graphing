@@ -8,6 +8,7 @@ import model.UGraph;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Returns a list of nodes in the order in which they are visited by a
@@ -15,13 +16,41 @@ import java.util.Set;
  */
 public class DFSVisitor implements GraphVisitor{
     private int time;
+    boolean debug = false;
 
-    public List<String> topologicalOrder(){
-        return null;
+    /**
+     * This method finds a traversal order appropriate for determining SCCs.
+     * @param graph
+     * @return
+     */
+    public List<Node> topologicalOrder(DGraph graph){
+        visit(graph);
+        return graph.getNodes().stream()
+                .sorted((n1, n2) -> Integer.compare(n2.getLast(), n1.getLast())) //ascending order is default. We want desc.
+                .collect(Collectors.toList());
     }
 
-    public List<Set<String>> sccs(){
-        return null;
+    public List<List<Node>> sccs(DGraph inputGraph){
+        List<Node> nodes = topologicalOrder(inputGraph);
+        List<List<Node>> scc = new ArrayList<>();
+
+        DGraph graph = new DGraph();
+        inputGraph.getNodes().forEach(
+                (node) -> node.getChildren().forEach(
+                        (child) -> graph.addEdge(child, node.getName())
+                )
+        );
+        graph.getNodes().forEach(node -> node.setColor(-1));
+
+        debug = true;
+        nodes.forEach(node ->{
+            if(graph.getNode(node.getName()).getColor() < 0){
+
+                graph.getNode(node.getName()).setColor(0);
+                scc.add(recurse(graph, graph.getNode(node.getName())));
+            }
+        });
+        return scc;
     }
 
 
@@ -38,9 +67,7 @@ public class DFSVisitor implements GraphVisitor{
     public <T extends Graph> List<List<Node>> visit(T graph) {
         List<List<Node>> outcome = new ArrayList<>();
         time = 0;
-        graph.getNodes().forEach(node -> {
-            node.setColor(-1);
-        });
+        graph.getNodes().forEach(node -> node.setColor(-1));
         graph.getNodes().forEach(node -> {
             if(node.getColor() < 0){
                 outcome.add(recurse(graph, node));
