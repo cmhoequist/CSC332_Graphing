@@ -47,7 +47,6 @@ public class Driver {
         graph.addEdge("g","h");
         graph.addEdge("h","d");
 
-
         DGraph digraph = new DGraph();
         digraph.addEdge("a","f");
         digraph.addEdge("a","c");
@@ -59,23 +58,23 @@ public class Driver {
         digraph.addEdge("g","h");
         digraph.addEdge("h","d");
 
+        BFSVisitor bfs = new BFSVisitor();
+        DFSVisitor dfs = new DFSVisitor();
+        JUNGVisitor jung = new JUNGVisitor();
+
 //        System.out.println(graph.adjacencyList());
 //        System.out.println(graph.adjacencyMatrix());
-//        System.out.println(digraph.adjacencyList());
-//        System.out.println(digraph.adjacencyMatrix());
-
-//        BFSVisitor bfs = new BFSVisitor();
 //        System.out.println(bfs.visit(graph));
-//        System.out.println(bfs.visit(digraph));
-//
-//        JUNGVisitor jung = new JUNGVisitor();
+//        System.out.println(dfs.visit(graph));
 //        jung.visit(graph);
-//        jung.visit(digraph);
 
-        DFSVisitor dfs = new DFSVisitor();
-        System.out.println(dfs.sccs(digraph));
-        System.out.println(dfs.visit(graph));
-        System.out.println(dfs.visit(digraph));
-        System.out.println(dfs.topologicalOrder(digraph));
+        System.out.println(digraph.adjacencyList());
+        System.out.println(digraph.adjacencyMatrix());
+        jung.visit(digraph);
+        System.out.println("BFS: "+bfs.visit(digraph));
+        System.out.println("DFS: "+dfs.visit(digraph));
+        //*Doesn't filter out DAGs: this is technically just a traversal order for SCC calculation
+        System.out.println("Topological ordering*: "+dfs.topologicalOrder(digraph));
+        System.out.println("SCCs: "+dfs.sccs(digraph));
     }
 }
