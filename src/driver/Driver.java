@@ -2,6 +2,7 @@ package driver;
 
 import visitors.BFSVisitor;
 import model.Graph;
+import visitors.JUNGVisitor;
 
 /**
  * Created by Moritz on 11/16/2016.
@@ -59,5 +60,8 @@ public class Driver {
         BFSVisitor bfs = new BFSVisitor();
         System.out.println(bfs.visit(graph));
         System.out.println(bfs.visit(digraph));
+
+        JUNGVisitor jung = new JUNGVisitor();
+        jung.visit(graph);
     }
 }
