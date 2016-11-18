@@ -6,6 +6,7 @@ import edu.uci.ics.jung.graph.UndirectedGraph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.samples.SimpleGraphDraw;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import model.Graph;
 import model.Node;
 
@@ -35,6 +36,12 @@ public class JUNGVisitor implements GraphVisitor{
         Layout<String, String> layout = new CircleLayout<>(jgraph);
         layout.setSize(new Dimension(300, 300));
         BasicVisualizationServer<String, String> vis = new BasicVisualizationServer<>(layout);
+        vis.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<String>(){
+            @Override
+            public String transform(String v){
+                return v;
+            }
+        });
 
         JFrame frame = new JFrame("Simple Graph View");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

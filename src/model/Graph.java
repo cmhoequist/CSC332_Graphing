@@ -9,13 +9,8 @@ import java.util.stream.Collectors;
  * In this implementation, the graph is considered a collection of nodes. Edges are the associations
  * between these nodes, and are recorded by the Node objects.
  */
-public class Graph {
-    private boolean isDigraph;
-    private Map<String, Node> graph = new HashMap<>();
-
-    public Graph(boolean isDigraph){
-        this.isDigraph = isDigraph;
-    }
+public abstract class Graph {
+    protected Map<String, Node> graph = new HashMap<>();
 
     /**
      * Adds an association between nodes. If the nodes are not yet recorded in the graph, they are
@@ -23,18 +18,7 @@ public class Graph {
      * @param origin source node
      * @param endpoint target node
      */
-    public void addEdge(String origin, String endpoint){
-        //Make sure the graph contains the relevant nodes
-        graph.putIfAbsent(origin, new Node(origin));
-        graph.putIfAbsent(endpoint, new Node(endpoint));
-
-        //Create an association from the origin node to the endpoint node
-        graph.get(origin).addChild(endpoint);
-        //If the graph is undirected, create an association from the endpoint node to the origin node
-        if(!isDigraph){
-            graph.get(endpoint).addChild(origin);
-        }
-    }
+    public abstract void addEdge(String origin, String endpoint);
 
     public void addNode(String node){
         graph.putIfAbsent(node, new Node(node));

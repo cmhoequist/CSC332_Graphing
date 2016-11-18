@@ -1,5 +1,7 @@
 package driver;
 
+import model.DirectedGraph;
+import model.UndirectedGraph;
 import visitors.BFSVisitor;
 import model.Graph;
 import visitors.JUNGVisitor;
@@ -30,7 +32,7 @@ import visitors.JUNGVisitor;
 public class Driver {
     public static void main(String[] args){
         //Testing
-        Graph graph = new Graph(false);
+        Graph graph = new UndirectedGraph();
         graph.addEdge("a","f");
         graph.addEdge("a","c");
         graph.addEdge("c","b");
@@ -43,7 +45,7 @@ public class Driver {
         System.out.println(graph.adjacencyList());
         System.out.println(graph.adjacencyMatrix());
 
-        Graph digraph = new Graph(true);
+        Graph digraph = new DirectedGraph();
         digraph.addEdge("a","f");
         digraph.addEdge("a","c");
         digraph.addEdge("c","b");
