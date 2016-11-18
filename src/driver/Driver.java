@@ -3,30 +3,33 @@ package driver;
 import model.DGraph;
 import model.UGraph;
 import visitors.BFSVisitor;
+import visitors.DFSVisitor;
 import visitors.JUNGVisitor;
 
 /**
  * Created by Moritz on 11/16/2016.
  * <p></p>
  */
-//TODO: input handler (class View)
+//TODO: handle input
         /*
         (?) First: user selects between graph & digraph
         (?) Then: user adds set of nodes and set of edges
          */
-//TODO: graph builder (class Graph, might need additional Diagram class)
+//TODO: build graphs
         /*
         (DONE) Adjacency list is constructed
         (DONE) Adjacency matrix is constructed
-        (?) Graph diagram is constructed
-        (?) Display results
+        (DONE) Graph diagram is constructed
+        (?) Display results appropriately
          */
-//TODO: write algorithms (class BFSVisitor, DFSVisitor)
+//TODO: write algorithms
         /*
-        (Moritz) BFS is executed. Print the nodes in order of visitation, one component per line.
-        (?) DFS is executed. Print the nodes in order of visitation, one component per line.
-                Print a topological ordering for the graph (or error message if graph is not DAG).
-                Print list of SCCs for graph (or error message if graph is not digraph).
+        (DONE) Run BFS and retrieve results.
+         (?) Display BFS properly.
+         (?) Run DFS and retrieve results.
+         (?) Display DFS properly.
+         (?) Display a topological ordering for the graph. (Error message if graph is not DAG).
+         (?) Display SCCs for graph. (Error message if graph is not digraph).
          */
 public class Driver {
     public static void main(String[] args){
@@ -65,5 +68,9 @@ public class Driver {
         JUNGVisitor jung = new JUNGVisitor();
         jung.visit(graph);
         jung.visit(digraph);
+
+        DFSVisitor dfs = new DFSVisitor();
+        System.out.println(dfs.visit(graph));
+        System.out.println(dfs.visit(digraph));
     }
 }

@@ -3,12 +3,11 @@ package visitors;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.*;
+import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.samples.SimpleGraphDraw;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import model.DGraph;
-import model.Node;
-import model.UGraph;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,17 +47,22 @@ public class JUNGVisitor implements GraphVisitor{
         frame.setVisible(true);
     }
 
-    @Override
+
     public List<List<Node>> visit(UGraph graph) {
         UndirectedGraph<String, String> jgraph = new UndirectedSparseGraph<String, String>();
         buildGraph(jgraph, graph);
         return null;
     }
 
-    @Override
+
     public List<List<Node>> visit(DGraph graph) {
         DirectedGraph<String, String> jgraph = new DirectedSparseGraph<>();
         buildGraph(jgraph, graph);
         return null;
+    }
+
+    @Override
+    public <T extends model.Graph> List<List<Node>> visit(T graph) {
+        return visit(graph);
     }
 }

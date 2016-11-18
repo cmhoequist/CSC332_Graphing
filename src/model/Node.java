@@ -12,7 +12,7 @@ public class Node{
     private final String name;
     private Set<String> children = new HashSet<>();
     //Algorithmic fields
-    private int distance;
+    private int distance, first, last;
     private int color;
     private String predecessor;
 
@@ -28,10 +28,6 @@ public class Node{
         children.add(nodeName);
     }
 
-    public void setDistance(int distance){
-        this.distance = distance;
-    }
-
     @Override
     public int hashCode(){
         return name.hashCode();
@@ -44,6 +40,18 @@ public class Node{
     /*ALGORITHMIC METHODS---------------------------------------------------------------------------------------------*/
     public void setColor(int color){
         this.color = color;
+    }
+
+    public void setDistance(int distance){
+        this.distance = distance;
+    }
+
+    public void setFirst(int first) {
+        this.first = first;
+    }
+
+    public void setLast(int last) {
+        this.last = last;
     }
 
     public void setPredecessor(String predecessor){

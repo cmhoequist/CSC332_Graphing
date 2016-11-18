@@ -32,7 +32,8 @@ public class BFSVisitor implements GraphVisitor{
             Q.pop
          */
 
-    private <T extends Graph> List<List<Node>> getWeaklyConnectedComponents(T graph){
+    @Override
+    public <T extends Graph> List<List<Node>> visit(T graph) {
         Queue<Node> queue = new LinkedList<>();
 
         List<List<Node>> components = new ArrayList<>();
@@ -65,16 +66,5 @@ public class BFSVisitor implements GraphVisitor{
             components.add(visitOrder);
         }
         return components;
-    }
-
-    @Override
-    public List<List<Node>> visit(DGraph graph){
-       return getWeaklyConnectedComponents(graph);
-    }
-
-
-    @Override
-    public List<List<Node>> visit(UGraph graph) {
-        return getWeaklyConnectedComponents(graph);
     }
 }

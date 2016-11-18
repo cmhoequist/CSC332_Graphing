@@ -1,6 +1,7 @@
 package visitors;
 
 import model.DGraph;
+import model.Graph;
 import model.Node;
 import model.UGraph;
 
@@ -16,7 +17,5 @@ public interface GraphVisitor {
      * @param graph
      * @return
      */
-    public List<List<Node>> visit(UGraph graph);
-
-    public List<List<Node>> visit(DGraph graph);
+    public <T extends Graph> List<List<Node>> visit(T graph);
 }
