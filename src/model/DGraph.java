@@ -6,7 +6,7 @@ import visitors.GraphVisitor;
  * Created by Moritz on 11/18/2016.
  * <p></p>
  */
-public class DirectedGraph extends Graph{
+public class DGraph extends Graph{
 
     @Override
     public void accept(GraphVisitor visitor) {

@@ -1,9 +1,8 @@
 package visitors;
 
-import model.DirectedGraph;
-import model.Graph;
+import model.DGraph;
 import model.Node;
-import model.UndirectedGraph;
+import model.UGraph;
 
 import java.util.List;
 import java.util.Set;
@@ -22,12 +21,12 @@ public class DFSVisitor implements GraphVisitor{
     }
 
     @Override
-    public List<List<Node>> visit(UndirectedGraph graph) {
+    public List<List<Node>> visit(UGraph graph) {
         return null;
     }
 
     @Override
-    public List<List<Node>> visit(DirectedGraph graph) {
+    public List<List<Node>> visit(DGraph graph) {
         return null;
     }
 }

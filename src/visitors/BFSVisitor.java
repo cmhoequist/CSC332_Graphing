@@ -1,7 +1,8 @@
 package visitors;
 
-import model.Graph;
+import model.DGraph;
 import model.Node;
+import model.UGraph;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -31,12 +32,41 @@ public class BFSVisitor implements GraphVisitor{
          */
 
     @Override
-    public List<List<Node>> visit(model.DirectedGraph graph){
-        return null;
+    public List<List<Node>> visit(DGraph graph){
+        Queue<Node> queue = new LinkedList<>();
+
+        List<List<Node>> components = new ArrayList<>();
+        List<Node> allNodes = graph.getNodes();
+        while(!allNodes.isEmpty()){
+            List<Node> visitOrder = new ArrayList<>();
+            Node s = allNodes.get(0);
+            s.setColor(0);
+            s.setDistance(0);
+            queue.add(s);
+            visitOrder.add(s);
+
+            while(!queue.isEmpty()){
+                Node v = queue.poll();
+                v.getChildren().forEach(childName ->{
+                    Node u = graph.getNode(childName);
+                    if(u.getColor() < 0){
+                        u.setColor(0);
+                        u.setDistance(v.getDistance());
+                        u.setPredecessor(v.getName());
+                        queue.add(u);
+                        visitOrder.add(u);
+                    }
+                });
+                allNodes.remove(v); //Equivalent to v.setColor(1)
+            }
+            components.add(visitOrder);
+        }
+        return components;
     }
 
+
     @Override
-    public List<List<Node>> visit(model.UndirectedGraph graph) {
+    public List<List<Node>> visit(UGraph graph) {
         Queue<Node> queue = new LinkedList<>();
 
         List<List<Node>> components = new ArrayList<>();

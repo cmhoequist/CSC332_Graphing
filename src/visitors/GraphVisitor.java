@@ -1,9 +1,8 @@
 package visitors;
 
-import model.DirectedGraph;
-import model.Graph;
+import model.DGraph;
 import model.Node;
-import model.UndirectedGraph;
+import model.UGraph;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface GraphVisitor {
      * @param graph
      * @return
      */
-    public List<List<Node>> visit(UndirectedGraph graph);
+    public List<List<Node>> visit(UGraph graph);
 
-    public List<List<Node>> visit(DirectedGraph graph);
+    public List<List<Node>> visit(DGraph graph);
 }

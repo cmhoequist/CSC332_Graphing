@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * Created by Moritz on 11/18/2016.
  * <p></p>
  */
-public class UndirectedGraph extends Graph{
+public class UGraph extends Graph{
 
     /**
      * Adds an association between nodes. If the nodes are not yet recorded in the graph, they are
