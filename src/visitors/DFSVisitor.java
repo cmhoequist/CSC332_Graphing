@@ -1,7 +1,9 @@
 package visitors;
 
+import model.DirectedGraph;
 import model.Graph;
 import model.Node;
+import model.UndirectedGraph;
 
 import java.util.List;
 import java.util.Set;
@@ -11,16 +13,21 @@ import java.util.Set;
  * depth-first search.
  */
 public class DFSVisitor implements GraphVisitor{
-    @Override
-    public List<List<Node>> visit(Graph graph) {
-        return null;
-    }
-
     public List<String> topologicalOrder(){
         return null;
     }
 
     public List<Set<String>> sccs(){
+        return null;
+    }
+
+    @Override
+    public List<List<Node>> visit(UndirectedGraph graph) {
+        return null;
+    }
+
+    @Override
+    public List<List<Node>> visit(DirectedGraph graph) {
         return null;
     }
 }

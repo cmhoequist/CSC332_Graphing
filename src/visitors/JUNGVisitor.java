@@ -7,6 +7,7 @@ import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.samples.SimpleGraphDraw;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import model.DirectedGraph;
 import model.Graph;
 import model.Node;
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class JUNGVisitor implements GraphVisitor{
 
     @Override
-    public List<List<Node>> visit(Graph graph) {
+    public List<List<Node>> visit(model.UndirectedGraph graph) {
         UndirectedGraph<String, String> jgraph = new UndirectedSparseGraph<String, String>();
         graph.getNodes().forEach((node)->{
             jgraph.addVertex(node.getName());
@@ -50,6 +51,11 @@ public class JUNGVisitor implements GraphVisitor{
         frame.setVisible(true);
 
 
+        return null;
+    }
+
+    @Override
+    public List<List<Node>> visit(model.DirectedGraph graph) {
         return null;
     }
 }

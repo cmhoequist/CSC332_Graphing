@@ -1,6 +1,7 @@
 package model;
 
 import visitors.GraphVisitor;
+import visitors.Visitable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -9,7 +10,7 @@ import java.util.stream.Collectors;
  * In this implementation, the graph is considered a collection of nodes. Edges are the associations
  * between these nodes, and are recorded by the Node objects.
  */
-public abstract class Graph {
+public abstract class Graph implements Visitable {
     protected Map<String, Node> graph = new HashMap<>();
 
     /**
@@ -19,6 +20,7 @@ public abstract class Graph {
      * @param endpoint target node
      */
     public abstract void addEdge(String origin, String endpoint);
+    public abstract void accept(GraphVisitor visitor);
 
     public void addNode(String node){
         graph.putIfAbsent(node, new Node(node));
@@ -35,10 +37,6 @@ public abstract class Graph {
 
     public List<Node> getNodes(){
         return graph.values().stream().collect(Collectors.toList());
-    }
-
-    public void accept(GraphVisitor visitor){
-        visitor.visit(this);
     }
 
     public Map<String, List<String>> adjacencyList(){

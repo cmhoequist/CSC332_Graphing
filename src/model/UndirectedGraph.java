@@ -20,6 +20,7 @@ public class UndirectedGraph extends Graph{
      * @param origin source node
      * @param endpoint target node
      */
+    @Override
     public void addEdge(String origin, String endpoint){
         //Make sure the graph contains the relevant nodes
         graph.putIfAbsent(origin, new Node(origin));
@@ -28,5 +29,10 @@ public class UndirectedGraph extends Graph{
         //Create an association from the origin node to the endpoint node and vice versa
         graph.get(origin).addChild(endpoint);
         graph.get(endpoint).addChild(origin);
+    }
+
+    @Override
+    public void accept(GraphVisitor visitor) {
+        visitor.visit(this);
     }
 }

@@ -31,7 +31,12 @@ public class BFSVisitor implements GraphVisitor{
          */
 
     @Override
-    public List<List<Node>> visit(Graph graph) {
+    public List<List<Node>> visit(model.DirectedGraph graph){
+        return null;
+    }
+
+    @Override
+    public List<List<Node>> visit(model.UndirectedGraph graph) {
         Queue<Node> queue = new LinkedList<>();
 
         List<List<Node>> components = new ArrayList<>();
