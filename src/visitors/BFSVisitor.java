@@ -37,19 +37,22 @@ public class BFSVisitor implements GraphVisitor{
 
         List<List<Node>> components = new ArrayList<>();
         List<Node> allNodes = graph.getNodes();
+
+        //Continue searching the graph while all nodes have not been completed
         while(!allNodes.isEmpty()){
+            //Initialize component search
             List<Node> visitOrder = new ArrayList<>();
             Node s = allNodes.get(0);
             s.setColor(0);
             s.setDistance(0);
             queue.add(s);
             visitOrder.add(s);
-
+            //Apply BFS to all nodes in a weakly connected component
             while(!queue.isEmpty()){
                 Node v = queue.poll();
                 v.getChildren().forEach(childName ->{
                     Node u = graph.getNode(childName);
-                    if(u.getColor() < 0){
+                    if(u.getColor() < 0){   //-1 represents white, 0 represents gray, 1 represents black
                         u.setColor(0);
                         u.setDistance(v.getDistance());
                         u.setPredecessor(v.getName());
