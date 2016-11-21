@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
  * between these nodes, and are recorded by the Node objects.
  */
 public abstract class Graph implements Visitable {
+    private boolean isAcyclic = true;
     protected Map<String, Node> graph = new HashMap<>();
 
     /**
@@ -66,5 +67,12 @@ public abstract class Graph implements Visitable {
         return sb.toString();
     }
 
+    public void setIsAcyclic(boolean isAcyclic){
+        this.isAcyclic = isAcyclic;
+    }
+
+    public boolean isAcyclic(){
+        return isAcyclic;
+    }
 
 }
