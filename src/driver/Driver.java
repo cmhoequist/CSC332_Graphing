@@ -2,6 +2,7 @@ package driver;
 
 import model.DGraph;
 import model.UGraph;
+import view.ProjectFrame;
 import visitors.BFSVisitor;
 import visitors.DFSVisitor;
 import visitors.JUNGVisitor;
@@ -35,6 +36,9 @@ import visitors.JUNGVisitor;
          */
 public class Driver {
     public static void main(String[] args){
+
+        ProjectFrame frame = new ProjectFrame();
+
         //Testing
         UGraph graph = new UGraph();
         graph.addEdge("a","f");

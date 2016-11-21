@@ -8,19 +8,40 @@ import java.awt.*;
  * <p></p>
  */
 public class ProjectFrame extends JFrame {
+    private final String GRAPHPANEL = "graphpanel";
+    private final String ALGPANEL = "algorithmpanel";
     CardLayout cardLayout = new CardLayout();
 
     public ProjectFrame(){
+        //Set up menu
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Menu");
+        JMenuItem menuGraph = new JMenuItem("Graph View");
+        JMenuItem menuAlg = new JMenuItem("Algorithm View");
+        menu.add(menuGraph);
+        menu.add(menuAlg);
+        menuBar.add(menu);
+        setJMenuBar(menuBar);
+
+        //Set up content panel
         JPanel content = new JPanel(cardLayout);
         getContentPane().setLayout(cardLayout);
-        add(new GraphPanel(), "graphpanel");
-        add(new AlgorithmPanel(), "algorithmpanel");
+        add(new GraphPanel(), GRAPHPANEL);
+        add(new AlgorithmPanel(), ALGPANEL);
 
         //Finish frame
+        setTitle("CSC332-PA3");
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    public String graphPanelName(){
+        return GRAPHPANEL;
+    }
+
+    public String algPanelName(){
+        return ALGPANEL;
+    }
 }
