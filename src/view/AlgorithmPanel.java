@@ -7,4 +7,7 @@ import javax.swing.*;
  * <p></p>
  */
 public class AlgorithmPanel extends JPanel {
+    public AlgorithmPanel(){
+        add(new JLabel("ALGORITHMPANEL"));
+    }
 }

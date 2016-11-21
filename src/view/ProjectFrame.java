@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Moritz on 11/21/2016.
@@ -17,7 +19,9 @@ public class ProjectFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Menu");
         JMenuItem menuGraph = new JMenuItem("Graph View");
+        menuGraph.addActionListener(e -> cardLayout.show(getContentPane(), GRAPHPANEL));
         JMenuItem menuAlg = new JMenuItem("Algorithm View");
+        menuAlg.addActionListener(e -> cardLayout.show(getContentPane(), ALGPANEL));
         menu.add(menuGraph);
         menu.add(menuAlg);
         menuBar.add(menu);

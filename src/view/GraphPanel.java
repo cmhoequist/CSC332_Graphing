@@ -7,4 +7,7 @@ import javax.swing.*;
  * <p></p>
  */
 public class GraphPanel extends JPanel {
+    public GraphPanel(){
+        add(new JLabel("GRAPHPANEL"));
+    }
 }
