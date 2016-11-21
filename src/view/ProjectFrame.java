@@ -14,6 +14,9 @@ public class ProjectFrame extends JFrame {
     private final String ALGPANEL = "algorithmpanel";
     private final String HELPPANEL = "helppanel";
     CardLayout cardLayout = new CardLayout();
+    GraphPanel graphpanel = new GraphPanel();
+    AlgorithmPanel algorithmpanel = new AlgorithmPanel();
+    HelpPanel helppanel = new HelpPanel();
 
     public ProjectFrame(){
         //Set up menu
@@ -27,13 +30,15 @@ public class ProjectFrame extends JFrame {
         help.addActionListener(e -> cardLayout.show(getContentPane(), HELPPANEL));
         menu.add(menuGraph);
         menu.add(menuAlg);
+        menu.add(help);
         menuBar.add(menu);
         setJMenuBar(menuBar);
 
         //Set up content panel
         getContentPane().setLayout(cardLayout);
-        add(new GraphPanel(), GRAPHPANEL);
-        add(new AlgorithmPanel(), ALGPANEL);
+        add(graphpanel, GRAPHPANEL);
+        add(algorithmpanel, ALGPANEL);
+        add(helppanel, HELPPANEL);
 
         //Finish frame
         setTitle("CSC332-PA3");
@@ -41,5 +46,17 @@ public class ProjectFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    public GraphPanel getGraphpanel(){
+        return graphpanel;
+    }
+
+    public AlgorithmPanel getAlgorithmpanel(){
+        return algorithmpanel;
+    }
+
+    public HelpPanel getHelppanel(){
+        return helppanel;
     }
 }

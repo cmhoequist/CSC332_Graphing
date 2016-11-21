@@ -7,4 +7,7 @@ import javax.swing.*;
  * <p></p>
  */
 public class HelpPanel extends JPanel{
+    public HelpPanel(){
+        add(new JLabel("HELPPANEL"));
+    }
 }
