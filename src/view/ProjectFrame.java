@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 public class ProjectFrame extends JFrame {
     private final String GRAPHPANEL = "graphpanel";
     private final String ALGPANEL = "algorithmpanel";
+    private final String HELPPANEL = "helppanel";
     CardLayout cardLayout = new CardLayout();
 
     public ProjectFrame(){
@@ -22,13 +23,14 @@ public class ProjectFrame extends JFrame {
         menuGraph.addActionListener(e -> cardLayout.show(getContentPane(), GRAPHPANEL));
         JMenuItem menuAlg = new JMenuItem("Algorithm View");
         menuAlg.addActionListener(e -> cardLayout.show(getContentPane(), ALGPANEL));
+        JMenuItem help = new JMenuItem("View Help Text");
+        help.addActionListener(e -> cardLayout.show(getContentPane(), HELPPANEL));
         menu.add(menuGraph);
         menu.add(menuAlg);
         menuBar.add(menu);
         setJMenuBar(menuBar);
 
         //Set up content panel
-        JPanel content = new JPanel(cardLayout);
         getContentPane().setLayout(cardLayout);
         add(new GraphPanel(), GRAPHPANEL);
         add(new AlgorithmPanel(), ALGPANEL);
@@ -39,13 +41,5 @@ public class ProjectFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    public String graphPanelName(){
-        return GRAPHPANEL;
-    }
-
-    public String algPanelName(){
-        return ALGPANEL;
     }
 }
