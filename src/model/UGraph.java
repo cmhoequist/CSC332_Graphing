@@ -2,11 +2,7 @@ package model;
 
 import visitors.GraphVisitor;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by Moritz on 11/18/2016.
@@ -32,7 +28,7 @@ public class UGraph extends Graph{
     }
 
     @Override
-    public void accept(GraphVisitor visitor) {
-        visitor.visit(this);
+    public List<List<Node>> accept(GraphVisitor visitor) {
+        return visitor.visit(this);
     }
 }

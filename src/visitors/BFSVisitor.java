@@ -1,10 +1,7 @@
 package visitors;
 
-import model.DGraph;
 import model.Graph;
 import model.Node;
-import model.UGraph;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,8 +27,7 @@ public class BFSVisitor implements GraphVisitor{
                     Q.append(u)
             v.color = black
             Q.pop
-         */
-
+     */
     @Override
     public <T extends Graph> List<List<Node>> visit(T graph) {
         Queue<Node> queue = new LinkedList<>();
@@ -39,9 +35,9 @@ public class BFSVisitor implements GraphVisitor{
         List<List<Node>> components = new ArrayList<>();
         List<Node> allNodes = graph.getNodes();
 
-        //Continue searching the graph while all nodes have not been completed
+        //Continue searching the graph until all nodes (all components) have been completed
         while(!allNodes.isEmpty()){
-            //Initialize component search
+            //Initialize search through a connected component
             List<Node> visitOrder = new ArrayList<>();
             Node s = allNodes.get(0);
             s.setColor(0);
@@ -53,15 +49,15 @@ public class BFSVisitor implements GraphVisitor{
                 Node v = queue.poll();
                 v.getChildren().forEach(childName ->{
                     Node u = graph.getNode(childName);
-                    if(u.getColor() < 0){   //-1 represents white, 0 represents gray, 1 represents black
-                        u.setColor(0);
+                    if(u.getColor() == -1){                 //-1 represents white
+                        u.setColor(0);                      //0 represents gray
                         u.setDistance(v.getDistance());
                         u.setPredecessor(v.getName());
                         queue.add(u);
                         visitOrder.add(u);
                     }
                 });
-                allNodes.remove(v); //Equivalent to v.setColor(1)
+                allNodes.remove(v);                         //Equivalent to marking the node black (completed)
             }
             components.add(visitOrder);
         }

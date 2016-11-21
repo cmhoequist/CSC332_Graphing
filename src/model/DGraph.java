@@ -2,6 +2,8 @@ package model;
 
 import visitors.GraphVisitor;
 
+import java.util.List;
+
 /**
  * Created by Moritz on 11/18/2016.
  * <p></p>
@@ -9,8 +11,8 @@ import visitors.GraphVisitor;
 public class DGraph extends Graph{
 
     @Override
-    public void accept(GraphVisitor visitor) {
-        visitor.visit(this);
+    public List<List<Node>> accept(GraphVisitor visitor) {
+        return visitor.visit(this);
     }
 
     @Override

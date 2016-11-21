@@ -20,7 +20,7 @@ public abstract class Graph implements Visitable {
      * @param endpoint target node
      */
     public abstract void addEdge(String origin, String endpoint);
-    public abstract void accept(GraphVisitor visitor);
+    public abstract List<List<Node>> accept(GraphVisitor visitor);
 
     public void addNode(String node){
         graph.putIfAbsent(node, new Node(node));

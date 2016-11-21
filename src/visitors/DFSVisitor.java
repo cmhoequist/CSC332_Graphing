@@ -3,11 +3,8 @@ package visitors;
 import model.DGraph;
 import model.Graph;
 import model.Node;
-import model.UGraph;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -16,12 +13,10 @@ import java.util.stream.Collectors;
  */
 public class DFSVisitor implements GraphVisitor{
     private int time;
-    boolean debug = false;
 
     /**
      * This method finds a traversal order appropriate for determining SCCs.
-     * @param graph
-     * @return
+     * In a DAG, this is a topological order.
      */
     public List<Node> topologicalOrder(DGraph graph){
         visit(graph);
@@ -42,12 +37,11 @@ public class DFSVisitor implements GraphVisitor{
         );
         graph.getNodes().forEach(node -> node.setColor(-1));
 
-        debug = true;
         nodes.forEach(node ->{
             if(graph.getNode(node.getName()).getColor() < 0){
 
                 graph.getNode(node.getName()).setColor(0);
-                scc.add(recurse(graph, graph.getNode(node.getName())));
+                scc.add(recursivelyVisit(graph, graph.getNode(node.getName())));
             }
         });
         return scc;
@@ -70,7 +64,7 @@ public class DFSVisitor implements GraphVisitor{
         graph.getNodes().forEach(node -> node.setColor(-1));
         graph.getNodes().forEach(node -> {
             if(node.getColor() < 0){
-                outcome.add(recurse(graph, node));
+                outcome.add(recursivelyVisit(graph, node));
             }
         });
         return outcome;
@@ -87,7 +81,7 @@ public class DFSVisitor implements GraphVisitor{
     u.lasttime = time
     time += 1
      */
-    private <T extends model.Graph> List<Node> recurse(T graph, Node current){
+    private <T extends model.Graph> List<Node> recursivelyVisit(T graph, Node current){
         List<Node> connected = new ArrayList<>();
         connected.add(current);
 
@@ -95,8 +89,8 @@ public class DFSVisitor implements GraphVisitor{
         current.setFirst(time);
         time += 1;
         current.getChildren().stream()
-                .filter(childName -> graph.getNode(childName).getColor() < 0)
-                .forEach(childName -> connected.addAll(recurse(graph, graph.getNode(childName))));
+                .filter(childName -> graph.getNode(childName).getColor() == -1) //if color is white, visit
+                .forEach(childName -> connected.addAll(recursivelyVisit(graph, graph.getNode(childName))));
         current.setColor(1);
         current.setLast(time);
         time += 1;
