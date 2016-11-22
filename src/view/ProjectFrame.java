@@ -2,6 +2,7 @@ package view;
 
 import model.DGraph;
 import model.Graph;
+import model.Node;
 import model.UGraph;
 import visitors.BFSVisitor;
 import visitors.DFSVisitor;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * Created by Moritz on 11/21/2016.
@@ -53,8 +55,11 @@ public class ProjectFrame extends JFrame {
         add(algorithmpanel, ALGPANEL);
         add(helppanel, HELPPANEL);
 
-        //Populate graph panel
+        //Populate panels
         JUNGVisitor jung = new JUNGVisitor();
+        BFSVisitor bfs = new BFSVisitor();
+        DFSVisitor dfs = new DFSVisitor();
+
         graphpanel.getUndirectedButton().addActionListener(e -> graph = new UGraph());
         graphpanel.getDirectedButton().addActionListener(e -> graph = new DGraph());
         graphpanel.getEdgeButton().addActionListener(e -> {
@@ -65,14 +70,17 @@ public class ProjectFrame extends JFrame {
         graphpanel.getBuildButton().addActionListener(e -> {
             graphpanel.setAdjacencyList(graph.adjacencyList());
             graphpanel.setAdjacencyMatrix(graph.adjacencyMatrix());
-            jung.visit(graph);
+            graph.accept(jung);
             graphpanel.setGraph(jung.getGraphPanel());
+
+            algorithmpanel.setBFS(graph.accept(bfs));
+            algorithmpanel.setDFS(graph.accept(dfs));
+            if(graph.isAcyclic() && graph instanceof DGraph){
+                List<Node> order = dfs.topologicalOrder((DGraph)graph);
+                algorithmpanel.setOrder(order);
+                algorithmpanel.setSCC(dfs.sccs((DGraph)graph, order));
+            }
         });
-
-
-        //Populate algorithms panel
-        BFSVisitor bfs = new BFSVisitor();
-        DFSVisitor dfs = new DFSVisitor();
 
         //Finish frame
         setTitle("CSC332-PA3");

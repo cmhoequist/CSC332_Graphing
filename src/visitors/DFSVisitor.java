@@ -31,8 +31,7 @@ public class DFSVisitor implements GraphVisitor{
                 .collect(Collectors.toList());
     }
 
-    public List<List<Node>> sccs(DGraph inputGraph){
-        List<Node> nodes = topologicalOrder(inputGraph);
+    public List<List<Node>> sccs(DGraph inputGraph, List<Node> traversalOrder){
         List<List<Node>> scc = new ArrayList<>();
 
         DGraph graph = new DGraph();
@@ -43,7 +42,7 @@ public class DFSVisitor implements GraphVisitor{
         );
         graph.getNodes().forEach(node -> node.setColor(-1));
 
-        nodes.forEach(node ->{
+        traversalOrder.forEach(node ->{
             if(graph.getNode(node.getName()).getColor() < 0){
 
                 graph.getNode(node.getName()).setColor(0);
