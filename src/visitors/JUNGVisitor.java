@@ -17,6 +17,7 @@ import java.util.List;
  * <p></p>
  */
 public class JUNGVisitor implements GraphVisitor{
+    private JPanel graphPanel;
 
     private <T extends model.Graph> void buildGraph(Graph<String, String> graph, T model){
         model.getNodes().forEach((node)-> graph.addVertex(node.getName()));
@@ -28,21 +29,19 @@ public class JUNGVisitor implements GraphVisitor{
 
         Layout<String, String> layout = new CircleLayout<>(graph);
         layout.setSize(new Dimension(300, 300));
-        BasicVisualizationServer<String, String> vis = new BasicVisualizationServer<>(layout);
-        vis.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<String>(){
+        BasicVisualizationServer<String, String> graphPanel = new BasicVisualizationServer<>(layout);
+        graphPanel.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<String>(){
             @Override
             public String transform(String v){
                 return v;
             }
         });
-
-        JFrame frame = new JFrame("Simple Graph View");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(vis);
-        frame.pack();
-        frame.setVisible(true);
+        this.graphPanel = graphPanel;
     }
 
+    public JPanel getGraphPanel(){
+        return graphPanel;
+    }
 
     public List<List<Node>> visit(UGraph graph) {
         UndirectedGraph<String, String> jgraph = new UndirectedSparseGraph<>();

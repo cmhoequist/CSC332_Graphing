@@ -1,5 +1,12 @@
 package view;
 
+import model.DGraph;
+import model.Graph;
+import model.UGraph;
+import visitors.BFSVisitor;
+import visitors.DFSVisitor;
+import visitors.JUNGVisitor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,13 +17,19 @@ import java.awt.event.ActionListener;
  * <p></p>
  */
 public class ProjectFrame extends JFrame {
+    //Constants
     private final String GRAPHPANEL = "graphpanel";
     private final String ALGPANEL = "algorithmpanel";
     private final String HELPPANEL = "helppanel";
+
+    //View components
     CardLayout cardLayout = new CardLayout();
     GraphPanel graphpanel = new GraphPanel();
     AlgorithmPanel algorithmpanel = new AlgorithmPanel();
     HelpPanel helppanel = new HelpPanel();
+
+    //Data
+    Graph graph;
 
     public ProjectFrame(){
         //Set up menu
@@ -39,6 +52,27 @@ public class ProjectFrame extends JFrame {
         add(graphpanel, GRAPHPANEL);
         add(algorithmpanel, ALGPANEL);
         add(helppanel, HELPPANEL);
+
+        //Populate graph panel
+        JUNGVisitor jung = new JUNGVisitor();
+        graphpanel.getUndirectedButton().addActionListener(e -> graph = new UGraph());
+        graphpanel.getDirectedButton().addActionListener(e -> graph = new DGraph());
+        graphpanel.getEdgeButton().addActionListener(e -> {
+            String[] nodes = graphpanel.getEdgeData();
+            graph.addEdge(nodes[0], nodes[1]);
+        });
+        graphpanel.getNodeButton().addActionListener(e -> graph.addNode(graphpanel.getNodeData()));
+        graphpanel.getBuildButton().addActionListener(e -> {
+            graphpanel.setAdjacencyList(graph.adjacencyList());
+            graphpanel.setAdjacencyMatrix(graph.adjacencyMatrix());
+            jung.visit(graph);
+            graphpanel.setGraph(jung.getGraphPanel());
+        });
+
+
+        //Populate algorithms panel
+        BFSVisitor bfs = new BFSVisitor();
+        DFSVisitor dfs = new DFSVisitor();
 
         //Finish frame
         setTitle("CSC332-PA3");

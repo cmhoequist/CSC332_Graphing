@@ -4,7 +4,9 @@ import model.DGraph;
 import model.Graph;
 import model.Node;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -13,12 +15,16 @@ import java.util.stream.Collectors;
  */
 public class DFSVisitor implements GraphVisitor{
     private int time;
+    private Set<String> cycleSet = new HashSet<>();
 
     /**
      * This method finds a traversal order appropriate for determining SCCs.
      * In a DAG, this is a topological order.
      */
     public List<Node> topologicalOrder(DGraph graph){
+        if(!graph.isAcyclic()){
+            System.out.println("CYCLIC GRAPH: FILTER OUT");
+        }
         visit(graph);
         return graph.getNodes().stream()
                 .sorted((n1, n2) -> Integer.compare(n2.getLast(), n1.getLast())) //ascending order is default. We want desc.
@@ -67,6 +73,8 @@ public class DFSVisitor implements GraphVisitor{
                 outcome.add(recursivelyVisit(graph, node));
             }
         });
+        //Reset in case of repeated calls on graphs with similar nodes
+        cycleSet.clear();
         return outcome;
     }
 
@@ -84,13 +92,20 @@ public class DFSVisitor implements GraphVisitor{
     private <T extends model.Graph> List<Node> recursivelyVisit(T graph, Node current){
         List<Node> connected = new ArrayList<>();
         connected.add(current);
+        cycleSet.add(current.getName());
 
         current.setColor(0);
         current.setFirst(time);
         time += 1;
-        current.getChildren().stream()
-                .filter(childName -> graph.getNode(childName).getColor() == -1) //if color is white, visit
-                .forEach(childName -> connected.addAll(recursivelyVisit(graph, graph.getNode(childName))));
+        current.getChildren().forEach(childName -> {
+            if(graph.getNode(childName).getColor() == -1){
+                connected.addAll(recursivelyVisit(graph, graph.getNode(childName)));
+            }
+            //Determine whether graph is cyclic by checking for edges pointing back to nodes earlier in this hierarchy
+            else if(cycleSet.contains(childName) && graph.getNode(childName).getColor() == 0){
+                graph.setIsAcyclic(false);
+            }
+        });
         current.setColor(1);
         current.setLast(time);
         time += 1;

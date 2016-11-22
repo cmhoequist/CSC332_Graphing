@@ -48,23 +48,39 @@ public abstract class Graph implements Visitable {
         return outcome;
     }
 
-    public String adjacencyMatrix(){
+    public List<List<String>> adjacencyMatrix(){
         StringBuilder sb = new StringBuilder();
         Map<String, List<String>> adj = adjacencyList();
-        final int padding = 2;
-        //Find offset length
-        int offset = adj.keySet().stream().max((k1, k2) -> Integer.compare(k1.length(), k2.length())).get().length();
-        //Print header
-        sb.append(String.format("%-"+(offset+padding)+"s",""));
-        adj.keySet().forEach(key -> sb.append(String.format("%-"+(offset+padding)+"s",key)));
-        sb.append("\n");
-        //Print body
-        adj.entrySet().forEach((entry) -> {
-            sb.append(String.format("%-"+(offset+padding)+"s",entry.getKey()));
-            adj.keySet().forEach((key) ->  sb.append(String.format("%-"+(offset+padding)+"s",entry.getValue().contains(key) ? "X" : "O")));
-            sb.append("\n");
+
+        List<List<String>> matrix = new ArrayList<>();
+        //Build header line
+        List<String> headers = new ArrayList<>();
+        headers.add("");
+        adj.keySet().forEach(key -> headers.add(key));
+        //Build body lines
+        matrix.add(headers);
+        adj.entrySet().forEach(entry -> {
+            List<String> line = new ArrayList<>();
+            line.add(entry.getKey());
+            adj.keySet().forEach(key -> line.add(entry.getValue().contains(key) ? "X" : "O"));
+            matrix.add(line);
         });
-        return sb.toString();
+
+        return matrix;
+//        final int padding = 2;
+//        //Find offset length
+//        int offset = adj.keySet().stream().max((k1, k2) -> Integer.compare(k1.length(), k2.length())).get().length();
+//        //Print header
+//        sb.append(String.format("%-"+(offset+padding)+"s",""));
+//        adj.keySet().forEach(key -> sb.append(String.format("%-"+(offset+padding)+"s",key)));
+//        sb.append("\n");
+//        //Print body
+//        adj.entrySet().forEach((entry) -> {
+//            sb.append(String.format("%-"+(offset+padding)+"s",entry.getKey()));
+//            adj.keySet().forEach((key) ->  sb.append(String.format("%-"+(offset+padding)+"s",entry.getValue().contains(key) ? "X" : "O")));
+//            sb.append("\n");
+//        });
+//        return sb.toString();
     }
 
     public void setIsAcyclic(boolean isAcyclic){
