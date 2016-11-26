@@ -1,0 +1,8 @@
+Bailey, Jessica:
+Project configuration and trouble-shooting.
+
+Fawcett, Will:
+Interface design.
+
+Hoequist, Moritz:
+Algorithmic and architectural design.

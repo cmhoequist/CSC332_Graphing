@@ -76,6 +76,9 @@ public class ProjectFrame extends JFrame {
         graphpanel.getBuildButton().addActionListener(e -> {
             System.out.println(graph.adjacencyList());
             System.out.println(graph.adjacencyMatrix());
+            System.out.println(graph.accept(dfs));
+            System.out.println(graph.accept(bfs));
+
             graphpanel.setAdjacencyList(graph.adjacencyList());
             graphpanel.setAdjacencyMatrix(graph.adjacencyMatrix());
             graph.accept(jung);
@@ -85,6 +88,10 @@ public class ProjectFrame extends JFrame {
             algorithmpanel.setDFS(graph.accept(dfs));
             if(graph.isAcyclic() && graph instanceof DGraph){
                 List<Node> order = dfs.topologicalOrder((DGraph)graph);
+
+                System.out.println(order);
+                System.out.println(dfs.sccs((DGraph)graph, order));
+
                 algorithmpanel.setOrder(order);
                 algorithmpanel.setSCC(dfs.sccs((DGraph)graph, order));
             }

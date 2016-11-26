@@ -30,6 +30,7 @@ public class BFSVisitor implements GraphVisitor{
      */
     @Override
     public <T extends Graph> List<List<Node>> visit(T graph) {
+        System.out.println("BFS graph: " + graph.getNodes());
         Queue<Node> queue = new LinkedList<>();
 
         List<List<Node>> components = new ArrayList<>();
@@ -61,6 +62,8 @@ public class BFSVisitor implements GraphVisitor{
             }
             components.add(visitOrder);
         }
+
+        System.out.println("BFS components: " + components);
         return components;
     }
 }

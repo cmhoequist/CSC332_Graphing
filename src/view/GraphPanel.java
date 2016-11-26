@@ -121,37 +121,6 @@ public class GraphPanel extends JTabbedPane {
         outcomePanel.add(adjList);
         outcomePanel.add(new JLabel("Adjacency Matrix"));
         outcomePanel.add(adjMatrix);
-
-        //TODO:
-        /*
-        This panel should display:
-            *The graph construction screen (with the options described below)
-            *The adjacency list (when construction is complete)
-            *The adjacency matrix (when construction is complete)
-            *The graph diagram (when construction is complete)
-        I recommend the use of a tabbed pane to display each graph view component separately, but any user-friendly
-        implementation is good. Because it's critical that the view play nice with the controller, I've outlined
-        some assumptions and constraints resulting from the existing controller implementation below.
-
-        For ease of coding, I have written the controller (:ProjectFrame) on the assumption that the user is locked
-        into their choices at each of the three steps of graph creation:
-            *First they choose a directed or undirected graph (directed:JRadioButton & undirected:JRadioButton)
-            *Then they add edges and nodes, one at a time (edgeButton:JButton & nodeButton:JButton)
-            *Finally they build the graph (build:JButton).
-        If they ever want to redo ANY of those choices, they MUST reset (reset:JButton) ALL their choices & start over.
-            *I recommend simply having all the fields and buttons that don't pertain to the step the user is on
-            disabled at any given time - that way they can't accidentally screw with the controller.
-
-        The controller is responsible for mediating between the model and the view, so a number of button listeners
-        are implemented there. All of these (and the related getters) have already been implemented.
-            *I have assumed everybody will use buttons for committing user input, but there are other (perhaps more
-            user-friendly?) options, such as table input or straight-up action listeners on text fields.
-            *NOTE that if you pursue one of these options, you will need to change the pre-built getters
-            and update the relevant portions of the controller.
-
-        All the method bodies labeled with a to-do flag (including this constructor) still need to be completed in
-        accordance with the assumptions outlined above.
-         */
     }
 
     public void setAdjacencyList(Map<String, List<String>> adjacencies){
@@ -189,8 +158,8 @@ public class GraphPanel extends JTabbedPane {
     }
 
     public void setGraph(JPanel graph){
+        diagramPanel.removeAll();
         diagramPanel.add(graph);
-//        addTab("Graph Diagram", null, graph, "Displays the graph diagram");
     }
 
     public void addNode(String nodeName){

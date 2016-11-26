@@ -1,0 +1,10 @@
+1) Run the executable.
+2) The GUI should load with a tab labeled 'Graph Input' selected. Use the labeled fields and buttons in this tab
+to construct a graph. When adding edges, the system will automatically generate the relevant nodes:
+it is not necessary to add each node individually. The 'add node' functionality only exists to allow
+the construction of graphs with disconnected nodes.
+3) Use the labeled tabs to view structural information about the graph. These will not be populated until a graph has
+been submitted.
+4) Click the menu button and select an alternative from the drop-down menu to view other areas of the application.
+5) Like structural information, the algorithmic outcomes will not be populated until a graph has been submitted.
+6) Close the window to exit the application.

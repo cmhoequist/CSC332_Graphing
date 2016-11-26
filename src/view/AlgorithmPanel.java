@@ -11,43 +11,57 @@ import java.util.StringJoiner;
  * Created by Moritz on 11/21/2016.
  * <p></p>
  */
-public class AlgorithmPanel extends JTabbedPane {
-    private JPanel bfs = new JPanel();
-    private JPanel dfs = new JPanel();
-    private JPanel top = new JPanel();
-    private JPanel scc = new JPanel();
+public class AlgorithmPanel extends JPanel {
+    private JTextArea bfs = new JTextArea();
+    private JTextArea dfs = new JTextArea();
+    private JTextArea top = new JTextArea();
+    private JTextArea scc = new JTextArea();
 
     public AlgorithmPanel(){
-        JLabel description = new JLabel("Nodes in order of traversal:");
-        bfs.add(description);
-        dfs.add(description);
-        addTab("Breadth First Search", null, bfs, "Displays BFS results");
-        addTab("Depth First Search", null, dfs,"Displays DFS results");
-        addTab("Topological Order", null, top, "Displays topological ordering");
-        addTab("Strongly Connected Components", null, scc, "Displays strongly connected components");
-
-        setPreferredSize(new Dimension(800, 300));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        add(new JLabel("BFS: nodes in order of traversal."));
+        add(bfs);
+        add(new JLabel("DFS: nodes in order of traversal."));
+        add(dfs);
+        add(new JLabel("Topological Order (if applicable):"));
+        add(top);
+        add(new JLabel("Strongly Connected Components (if applicable):"));
+        add(scc);
     }
 
     public void setBFS(List<List<Node>> components) {
-        StringJoiner sj = new StringJoiner(", ");
-        components.forEach(component -> {
-            sj.add("SCC: ");
-            component.forEach(node -> sj.add(node.getName()));
-            sj.add("\n");
-        });
-        bfs.add(new JTextArea(sj.toString()));
+        StringBuilder sb = new StringBuilder();
+        System.out.println("BFS: "+components);
+        bfs.setText(bySCC(components));
     }
 
     public void setDFS(List<List<Node>> components) {
-        //TODO
+        dfs.setText(bySCC(components));
     }
 
     public void setOrder(List<Node> order) {
-        //TODO
+        StringBuilder sb = new StringBuilder();
+        order.forEach(node -> sb.append(node.getName()).append(" -> "));
+        sb.setLength(sb.length()-3);
+        top.setText(sb.toString());
     }
 
     public void setSCC(List<List<Node>> order) {
-        //TODO
+        scc.setText(bySCC(order));
+    }
+
+    private String bySCC(List<List<Node>> components){
+        StringBuilder sb = new StringBuilder();
+        components.forEach(component -> {
+            if(component.isEmpty()){
+                sb.append("- ");
+            }
+            else{
+                component.forEach(node -> sb.append(node.getName()).append(", "));
+                sb.setLength(sb.length()-2);
+            }
+            sb.append("\n");
+        });
+        return sb.toString();
     }
 }

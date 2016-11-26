@@ -44,7 +44,6 @@ public class DFSVisitor implements GraphVisitor{
 
         traversalOrder.forEach(node ->{
             if(graph.getNode(node.getName()).getColor() < 0){
-
                 graph.getNode(node.getName()).setColor(0);
                 scc.add(recursivelyVisit(graph, graph.getNode(node.getName())));
             }
