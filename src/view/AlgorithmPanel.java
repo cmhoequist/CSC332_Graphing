@@ -3,9 +3,7 @@ package view;
 import model.Node;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
-import java.util.StringJoiner;
 
 /**
  * Created by Moritz on 11/21/2016.
@@ -31,7 +29,6 @@ public class AlgorithmPanel extends JPanel {
 
     public void setBFS(List<List<Node>> components) {
         StringBuilder sb = new StringBuilder();
-        System.out.println("BFS: "+components);
         bfs.setText(bySCC(components));
     }
 
@@ -40,14 +37,24 @@ public class AlgorithmPanel extends JPanel {
     }
 
     public void setOrder(List<Node> order) {
-        StringBuilder sb = new StringBuilder();
-        order.forEach(node -> sb.append(node.getName()).append(" -> "));
-        sb.setLength(sb.length()-3);
-        top.setText(sb.toString());
+        if(order==null){
+            top.setText("Graph is not a DAG.");
+        }
+        else{
+            StringBuilder sb = new StringBuilder();
+            order.forEach(node -> sb.append(node.getName()).append(" -> "));
+            sb.setLength(sb.length()-3);
+            top.setText(sb.toString());
+        }
     }
 
     public void setSCC(List<List<Node>> order) {
-        scc.setText(bySCC(order));
+        if(order==null){
+            scc.setText("Graph is not a digraph.");
+        }
+        else{
+            scc.setText(bySCC(order));
+        }
     }
 
     private String bySCC(List<List<Node>> components){

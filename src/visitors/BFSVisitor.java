@@ -2,10 +2,8 @@ package visitors;
 
 import model.Graph;
 import model.Node;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+
+import java.util.*;
 
 /**
  * Returns a list of nodes in the order in which they are visited by a
@@ -30,26 +28,27 @@ public class BFSVisitor implements GraphVisitor{
      */
     @Override
     public <T extends Graph> List<List<Node>> visit(T graph) {
-        System.out.println("BFS graph: " + graph.getNodes());
         Queue<Node> queue = new LinkedList<>();
-
         List<List<Node>> components = new ArrayList<>();
         List<Node> allNodes = graph.getNodes();
 
         //Continue searching the graph until all nodes (all components) have been completed
         while(!allNodes.isEmpty()){
             //Initialize search through a connected component
+            Set<Node> weak = new HashSet<>();
             List<Node> visitOrder = new ArrayList<>();
             Node s = allNodes.get(0);
             s.setColor(0);
             s.setDistance(0);
             queue.add(s);
             visitOrder.add(s);
+            weak.add(s);
             //Apply BFS to all nodes in a weakly connected component
             while(!queue.isEmpty()){
                 Node v = queue.poll();
                 v.getChildren().forEach(childName ->{
                     Node u = graph.getNode(childName);
+                    weak.add(u);
                     if(u.getColor() == -1){                 //-1 represents white
                         u.setColor(0);                      //0 represents gray
                         u.setDistance(v.getDistance());
@@ -60,10 +59,8 @@ public class BFSVisitor implements GraphVisitor{
                 });
                 allNodes.remove(v);                         //Equivalent to marking the node black (completed)
             }
-            components.add(visitOrder);
+            components.add(new ArrayList<>(weak));
         }
-
-        System.out.println("BFS components: " + components);
         return components;
     }
 }

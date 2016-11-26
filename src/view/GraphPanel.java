@@ -121,6 +121,9 @@ public class GraphPanel extends JTabbedPane {
         outcomePanel.add(adjList);
         outcomePanel.add(new JLabel("Adjacency Matrix"));
         outcomePanel.add(adjMatrix);
+
+        //Construct diagramPanel
+        diagramPanel.setLayout(new BoxLayout(diagramPanel, BoxLayout.PAGE_AXIS));
     }
 
     public void setAdjacencyList(Map<String, List<String>> adjacencies){
@@ -182,6 +185,7 @@ public class GraphPanel extends JTabbedPane {
         toggleComponent((Container)buildPanel.getComponent(1), true);
         toggleComponent((Container)buildPanel.getComponent(2), true);
         toggleComponent((Container)buildPanel.getComponent(3), false);
+        reset.setEnabled(true);
     }
 
     public void toggleGraphCompletion(){
@@ -196,16 +200,17 @@ public class GraphPanel extends JTabbedPane {
         toggleComponent((Container)buildPanel.getComponent(1), false);
         toggleComponent((Container)buildPanel.getComponent(2), false);
         toggleComponent((Container)buildPanel.getComponent(3), false);
-        directed.setSelected(false);
-        undirected.setSelected(false);
-    }
-
-    private void reset(){
+        reset.setEnabled(true);
         nodeListModel.clear();
         edgeListModel.clear();
         nodeField.setText("");
         startNode.setText("");
         endNode.setText("");
+        directed.setSelected(false);
+        undirected.setSelected(false);
+    }
+
+    private void reset(){
         toggleReset();
     }
 
