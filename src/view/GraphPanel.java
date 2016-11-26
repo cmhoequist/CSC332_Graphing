@@ -12,6 +12,12 @@ import java.util.stream.IntStream;
  * <p></p>
  */
 public class GraphPanel extends JTabbedPane {
+    //Tabs
+    private JPanel buildPanel = new JPanel();
+    private JPanel outcomePanel = new JPanel();
+    private JPanel diagramPanel = new JPanel();
+
+    //buildPanel components
     private JButton nodeButton = new JButton("Add Node");
     private JTextField nodeField = new JTextField();
     private JButton edgeButton = new JButton("Add Edge");
@@ -24,17 +30,16 @@ public class GraphPanel extends JTabbedPane {
     private DefaultListModel<String> nodeListModel = new DefaultListModel<>();
     private DefaultListModel<String> edgeListModel = new DefaultListModel<>();
 
-    private JPanel buildPanel = new JPanel();
-    private JPanel outcomePanel = new JPanel();
+    //outcomePanel components
+    private JTextArea adjList = new JTextArea();
+    private JTextArea adjMatrix = new JTextArea();
 
     public GraphPanel(){
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(undirected);
-        buttonGroup.add(directed);
-
         addTab("Graph Input", null, buildPanel, "Handles user input to construct graph");
         addTab("Graph Information", null, outcomePanel, "Displays information about the completed graph");
+        addTab("Graph Diagram", null, diagramPanel, "Displays the graph diagram");
 
+        //Construct buildPanel
         //Generate graph type
         JPanel graphType = new JPanel();
         graphType.setLayout(new FlowLayout());
@@ -58,7 +63,9 @@ public class GraphPanel extends JTabbedPane {
         //Display nodes and edges
         JPanel displayGraph = new JPanel();
         JList<String> nodeList = new JList<>(nodeListModel);
+        nodeList.setFixedCellWidth(250);
         JList<String> edgeList = new JList<>(edgeListModel);
+        edgeList.setFixedCellWidth(250);
         JScrollPane nodeScroller = new JScrollPane(nodeList);
         JScrollPane edgeScroller = new JScrollPane(edgeList);
         displayGraph.add(nodeScroller);
@@ -68,7 +75,7 @@ public class GraphPanel extends JTabbedPane {
         finalize.add(build);
         finalize.add(reset);
 
-        //Construct buildPanel
+        //Assemble buildPanel
         buildPanel.setLayout(new BoxLayout(buildPanel, BoxLayout.PAGE_AXIS));
         buildPanel.add(graphType);
         generateGraph.setMaximumSize(displayGraph.getPreferredSize());
@@ -76,12 +83,16 @@ public class GraphPanel extends JTabbedPane {
         buildPanel.add(displayGraph);
         buildPanel.add(finalize);
 
+        //Initialize buildPanel
         IntStream.range(1, buildPanel.getComponentCount()).forEach(i -> {
             Container panel = (Container)buildPanel.getComponent(i);
             IntStream.range(0, panel.getComponentCount()).forEach(j -> {
                panel.getComponent(j).setEnabled(false);
             });
         });
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(undirected);
+        buttonGroup.add(directed);
 
         //Add listeners
         AbstractAction start = new AbstractAction(){
@@ -102,6 +113,14 @@ public class GraphPanel extends JTabbedPane {
         });
         build.addActionListener(e -> toggleReset());
         reset.addActionListener(e -> reset());
+
+        //Construct outcomePanel
+        adjMatrix.setFont(new Font("monospaced", Font.PLAIN, 12));
+        outcomePanel.setLayout(new BoxLayout(outcomePanel, BoxLayout.PAGE_AXIS));
+        outcomePanel.add(new JLabel("Adjacency List"));
+        outcomePanel.add(adjList);
+        outcomePanel.add(new JLabel("Adjacency Matrix"));
+        outcomePanel.add(adjMatrix);
 
         //TODO:
         /*
@@ -135,6 +154,54 @@ public class GraphPanel extends JTabbedPane {
          */
     }
 
+    public void setAdjacencyList(Map<String, List<String>> adjacencies){
+        //Map structure is self-explanatory: K=Node, V={list of adjacent nodes}
+        StringBuilder sb = new StringBuilder();
+        adjacencies.entrySet().forEach(entry -> {
+            sb.append(entry.getKey()+": ");
+            if(entry.getValue().isEmpty()){
+                sb.append("- ");
+            }
+            else{
+                entry.getValue().forEach(node -> sb.append(node+" -> "));
+                sb.setLength(sb.length()-3);
+            }
+            sb.append("\n");
+        });
+        adjList.setText(sb.toString());
+    }
+
+    private int formatOffset = 0;
+    private int padding = 1;
+    public void setAdjacencyMatrix(List<List<String>> adjacencies){
+        //Each internal List is a line in the matrix, starting with the header line. Each element in the line is a cell.
+        adjacencies.get(0).forEach(entry -> formatOffset = Math.max(entry.length(), formatOffset));
+        StringBuilder sb = new StringBuilder();
+        //Build table header
+        adjacencies.get(0).forEach(entry -> sb.append(String.format("%-"+(formatOffset+padding)+"s",entry)));
+        sb.append("\n");
+        //Build table body
+        IntStream.range(1, adjacencies.size()).forEach(i -> {
+            adjacencies.get(i).forEach(entry -> sb.append(String.format("%-" + (formatOffset+padding) + "s", entry)));
+            sb.append("\n");
+        });
+        adjMatrix.setText(sb.toString());
+    }
+
+    public void setGraph(JPanel graph){
+        diagramPanel.add(graph);
+//        addTab("Graph Diagram", null, graph, "Displays the graph diagram");
+    }
+
+    public void addNode(String nodeName){
+        nodeListModel.addElement(nodeName);
+    }
+
+    public void addEdge(String start, String end){
+        String connector = directed.isSelected() ? " -> " : " - ";
+        edgeListModel.addElement(start+connector+end);
+    }
+
     private void toggleComponent(Container parent, boolean toggle){
         IntStream.range(0, parent.getComponentCount()).forEach(j -> {
             parent.getComponent(j).setEnabled(toggle);
@@ -160,6 +227,8 @@ public class GraphPanel extends JTabbedPane {
         toggleComponent((Container)buildPanel.getComponent(1), false);
         toggleComponent((Container)buildPanel.getComponent(2), false);
         toggleComponent((Container)buildPanel.getComponent(3), false);
+        directed.setSelected(false);
+        undirected.setSelected(false);
     }
 
     private void reset(){
@@ -177,30 +246,6 @@ public class GraphPanel extends JTabbedPane {
 
     public String getNodeData(){
         return nodeField.getText();
-    }
-
-    public void setAdjacencyList(Map<String, List<String>> adjacencies){
-        //Map structure is self-explanatory: K=Node, V={list of adjacent nodes}
-        //TODO
-    }
-
-    public void setAdjacencyMatrix(List<List<String>> adjacencies){
-        //Each internal List is a line in the matrix, starting with the header line. Each element in the line is a cell.
-        //TODO
-    }
-
-    public void setGraph(JPanel graph){
-        //Self-explanatory. The parameter has been painted with the graph diagram.
-        //TODO
-    }
-
-    public void addNode(String nodeName){
-        nodeListModel.addElement(nodeName);
-    }
-
-    public void addEdge(String start, String end){
-        String connector = directed.isSelected() ? "->" : "-";
-        edgeListModel.addElement(start+connector+end);
     }
 
     public JButton getEdgeButton(){

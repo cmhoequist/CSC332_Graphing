@@ -74,6 +74,8 @@ public class ProjectFrame extends JFrame {
             graph.addNode(graphpanel.getNodeData());
         });
         graphpanel.getBuildButton().addActionListener(e -> {
+            System.out.println(graph.adjacencyList());
+            System.out.println(graph.adjacencyMatrix());
             graphpanel.setAdjacencyList(graph.adjacencyList());
             graphpanel.setAdjacencyMatrix(graph.adjacencyMatrix());
             graph.accept(jung);
