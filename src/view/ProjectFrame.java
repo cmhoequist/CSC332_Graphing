@@ -60,13 +60,19 @@ public class ProjectFrame extends JFrame {
         BFSVisitor bfs = new BFSVisitor();
         DFSVisitor dfs = new DFSVisitor();
 
-        graphpanel.getUndirectedButton().addActionListener(e -> graph = new UGraph());
-        graphpanel.getDirectedButton().addActionListener(e -> graph = new DGraph());
+        graphpanel.getUndirectedButton().addActionListener(e -> {
+            graph = new UGraph();
+        });
+        graphpanel.getDirectedButton().addActionListener(e -> {
+            graph = new DGraph();
+        });
         graphpanel.getEdgeButton().addActionListener(e -> {
             String[] nodes = graphpanel.getEdgeData();
             graph.addEdge(nodes[0], nodes[1]);
         });
-        graphpanel.getNodeButton().addActionListener(e -> graph.addNode(graphpanel.getNodeData()));
+        graphpanel.getNodeButton().addActionListener(e -> {
+            graph.addNode(graphpanel.getNodeData());
+        });
         graphpanel.getBuildButton().addActionListener(e -> {
             graphpanel.setAdjacencyList(graph.adjacencyList());
             graphpanel.setAdjacencyMatrix(graph.adjacencyMatrix());

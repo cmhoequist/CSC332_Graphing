@@ -58,6 +58,12 @@ public class JUNGVisitor implements GraphVisitor{
 
     @Override
     public <T extends model.Graph> List<List<Node>> visit(T graph) {
-        return graph.accept(this);
+        if(graph instanceof DGraph){
+            visit((DGraph)graph);
+        }
+        else if(graph instanceof UGraph){
+            visit((UGraph)graph);
+        }
+        return null;
     }
 }

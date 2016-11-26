@@ -2,8 +2,10 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 /**
  * Created by Moritz on 11/21/2016.
@@ -19,6 +21,8 @@ public class GraphPanel extends JTabbedPane {
     private JRadioButton undirected = new JRadioButton("Undirected");
     private JRadioButton directed = new JRadioButton("Directed");
     private JButton reset = new JButton("Reset Choices");
+    private DefaultListModel<String> nodeListModel = new DefaultListModel<>();
+    private DefaultListModel<String> edgeListModel = new DefaultListModel<>();
 
     private JPanel buildPanel = new JPanel();
     private JPanel outcomePanel = new JPanel();
@@ -53,8 +57,8 @@ public class GraphPanel extends JTabbedPane {
         generateGraph.add(nodeButton);
         //Display nodes and edges
         JPanel displayGraph = new JPanel();
-        JList<String> nodeList = new JList<>();
-        JList<String> edgeList = new JList<>();
+        JList<String> nodeList = new JList<>(nodeListModel);
+        JList<String> edgeList = new JList<>(edgeListModel);
         JScrollPane nodeScroller = new JScrollPane(nodeList);
         JScrollPane edgeScroller = new JScrollPane(edgeList);
         displayGraph.add(nodeScroller);
@@ -72,6 +76,31 @@ public class GraphPanel extends JTabbedPane {
         buildPanel.add(displayGraph);
         buildPanel.add(finalize);
 
+        IntStream.range(1, buildPanel.getComponentCount()).forEach(i -> {
+            Container panel = (Container)buildPanel.getComponent(i);
+            IntStream.range(0, panel.getComponentCount()).forEach(j -> {
+               panel.getComponent(j).setEnabled(false);
+            });
+        });
+
+        //Add listeners
+        AbstractAction start = new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleGraphInput();
+            }
+        };
+        directed.addActionListener(start);
+        undirected.addActionListener(start);
+        nodeButton.addActionListener(e -> {
+            addNode(nodeField.getText());
+            toggleGraphCompletion();
+        });
+        edgeButton.addActionListener(e -> {
+            addEdge(startNode.getText(), endNode.getText());
+            toggleGraphCompletion();
+        });
+        build.addActionListener(e -> toggleReset());
         reset.addActionListener(e -> reset());
 
         //TODO:
@@ -106,19 +135,48 @@ public class GraphPanel extends JTabbedPane {
          */
     }
 
+    private void toggleComponent(Container parent, boolean toggle){
+        IntStream.range(0, parent.getComponentCount()).forEach(j -> {
+            parent.getComponent(j).setEnabled(toggle);
+        });
+    }
+
+    public void toggleGraphInput(){
+        toggleComponent((Container)buildPanel.getComponent(0), false);
+        toggleComponent((Container)buildPanel.getComponent(1), true);
+        toggleComponent((Container)buildPanel.getComponent(2), true);
+        toggleComponent((Container)buildPanel.getComponent(3), false);
+    }
+
+    public void toggleGraphCompletion(){
+        toggleComponent((Container)buildPanel.getComponent(0), false);
+        toggleComponent((Container)buildPanel.getComponent(1), true);
+        toggleComponent((Container)buildPanel.getComponent(2), true);
+        toggleComponent((Container)buildPanel.getComponent(3), true);
+    }
+
+    public void toggleReset(){
+        toggleComponent((Container)buildPanel.getComponent(0), true);
+        toggleComponent((Container)buildPanel.getComponent(1), false);
+        toggleComponent((Container)buildPanel.getComponent(2), false);
+        toggleComponent((Container)buildPanel.getComponent(3), false);
+    }
+
     private void reset(){
-        //Should empty all fields and reset states to step one.
-        //TODO
+        nodeListModel.clear();
+        edgeListModel.clear();
+        nodeField.setText("");
+        startNode.setText("");
+        endNode.setText("");
+        toggleReset();
     }
 
     public String[] getEdgeData(){
-        //Should return a start nodeButton name and an endpoint nodeButton name.
-        return new String[]{null, null}; //TODO
+        return new String[]{startNode.getText(), endNode.getText()};
     }
 
     public String getNodeData(){
-        //Should return a nodeButton name.
-        return new String();    //TODO
+        return nodeField.getText();
     }
 
     public void setAdjacencyList(Map<String, List<String>> adjacencies){
@@ -136,6 +194,14 @@ public class GraphPanel extends JTabbedPane {
         //TODO
     }
 
+    public void addNode(String nodeName){
+        nodeListModel.addElement(nodeName);
+    }
+
+    public void addEdge(String start, String end){
+        String connector = directed.isSelected() ? "->" : "-";
+        edgeListModel.addElement(start+connector+end);
+    }
 
     public JButton getEdgeButton(){
         return edgeButton;
