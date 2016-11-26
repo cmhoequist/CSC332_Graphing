@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -8,20 +9,69 @@ import java.util.Map;
  * Created by Moritz on 11/21/2016.
  * <p></p>
  */
-public class GraphPanel extends JPanel {
-    private JButton node = new JButton("Add Node");
-    private JButton edge = new JButton("Add Edge");
+public class GraphPanel extends JTabbedPane {
+    private JButton nodeButton = new JButton("Add Node");
+    private JTextField nodeField = new JTextField();
+    private JButton edgeButton = new JButton("Add Edge");
+    private JTextField startNode = new JTextField();
+    private JTextField endNode = new JTextField();
     private JButton build = new JButton("Build Graph");
     private JRadioButton undirected = new JRadioButton("Undirected");
     private JRadioButton directed = new JRadioButton("Directed");
     private JButton reset = new JButton("Reset Choices");
 
-    public GraphPanel(){
-        add(new JLabel("GRAPHPANEL"));
+    private JPanel buildPanel = new JPanel();
+    private JPanel outcomePanel = new JPanel();
 
+    public GraphPanel(){
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(undirected);
         buttonGroup.add(directed);
+
+        addTab("Graph Input", null, buildPanel, "Handles user input to construct graph");
+        addTab("Graph Information", null, outcomePanel, "Displays information about the completed graph");
+
+        //Generate graph type
+        JPanel graphType = new JPanel();
+        graphType.setLayout(new FlowLayout());
+        graphType.add(directed);
+        graphType.add(undirected);
+        //Generate nodes and edges
+        JPanel generateGraph = new JPanel();
+        generateGraph.setLayout(new GridLayout(4, 3, 10, 10));
+        generateGraph.add(new JLabel("Start Node"));
+        generateGraph.add(new JLabel("End Node"));
+        generateGraph.add(new JLabel());
+        generateGraph.add(startNode);
+        generateGraph.add(endNode);
+        generateGraph.add(edgeButton);
+        generateGraph.add(new JLabel("Node Name"));
+        generateGraph.add(new JLabel());
+        generateGraph.add(new JLabel());
+        generateGraph.add(nodeField);
+        generateGraph.add(new JLabel());
+        generateGraph.add(nodeButton);
+        //Display nodes and edges
+        JPanel displayGraph = new JPanel();
+        JList<String> nodeList = new JList<>();
+        JList<String> edgeList = new JList<>();
+        JScrollPane nodeScroller = new JScrollPane(nodeList);
+        JScrollPane edgeScroller = new JScrollPane(edgeList);
+        displayGraph.add(nodeScroller);
+        displayGraph.add(edgeScroller);
+        //Finalize
+        JPanel finalize = new JPanel();
+        finalize.add(build);
+        finalize.add(reset);
+
+        //Construct buildPanel
+        buildPanel.setLayout(new BoxLayout(buildPanel, BoxLayout.PAGE_AXIS));
+        buildPanel.add(graphType);
+        generateGraph.setMaximumSize(displayGraph.getPreferredSize());
+        buildPanel.add(generateGraph);
+        buildPanel.add(displayGraph);
+        buildPanel.add(finalize);
+
         reset.addActionListener(e -> reset());
 
         //TODO:
@@ -38,7 +88,7 @@ public class GraphPanel extends JPanel {
         For ease of coding, I have written the controller (:ProjectFrame) on the assumption that the user is locked
         into their choices at each of the three steps of graph creation:
             *First they choose a directed or undirected graph (directed:JRadioButton & undirected:JRadioButton)
-            *Then they add edges and nodes, one at a time (edge:JButton & node:JButton)
+            *Then they add edges and nodes, one at a time (edgeButton:JButton & nodeButton:JButton)
             *Finally they build the graph (build:JButton).
         If they ever want to redo ANY of those choices, they MUST reset (reset:JButton) ALL their choices & start over.
             *I recommend simply having all the fields and buttons that don't pertain to the step the user is on
@@ -62,12 +112,12 @@ public class GraphPanel extends JPanel {
     }
 
     public String[] getEdgeData(){
-        //Should return a start node name and an endpoint node name.
+        //Should return a start nodeButton name and an endpoint nodeButton name.
         return new String[]{null, null}; //TODO
     }
 
     public String getNodeData(){
-        //Should return a node name.
+        //Should return a nodeButton name.
         return new String();    //TODO
     }
 
@@ -88,11 +138,11 @@ public class GraphPanel extends JPanel {
 
 
     public JButton getEdgeButton(){
-        return edge;
+        return edgeButton;
     }
 
     public JButton getNodeButton(){
-        return node;
+        return nodeButton;
     }
 
     public JButton getBuildButton(){

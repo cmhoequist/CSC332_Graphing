@@ -79,6 +79,6 @@ public class Driver {
         System.out.println("DFS: "+dfs.visit(digraph));
         //*Doesn't filter out DAGs: this is technically just a traversal order for SCC calculation
         System.out.println("Topological ordering*: "+dfs.topologicalOrder(digraph));
-        System.out.println("SCCs: "+dfs.sccs(digraph));
+        System.out.println("SCCs: "+dfs.sccs(digraph, dfs.topologicalOrder(digraph)));
     }
 }
